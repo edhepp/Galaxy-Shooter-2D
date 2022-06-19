@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private GameObject _laserPrefab;
+    private float _fireRate = 0.15f;
+    private float _canFire = -1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -23,9 +25,11 @@ public class Player : MonoBehaviour
     {
         PlayerMovement();
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
-            Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            _canFire = Time.time + _fireRate;
+            Vector3 offset = new Vector3(0, 0.8f, 0);
+            Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
         }
     }
 
