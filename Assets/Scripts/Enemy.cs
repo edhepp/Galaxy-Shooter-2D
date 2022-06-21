@@ -29,7 +29,12 @@ public class Enemy : MonoBehaviour
     {
         if (other.transform.name == "Player")
         {
-            Destroy(other.gameObject);
+            Player player = other.transform.GetComponent<Player>();
+
+            if (player != null)
+            {
+                player.Damage();
+            }
             Destroy(this.gameObject);
         }
 
