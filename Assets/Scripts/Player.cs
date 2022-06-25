@@ -9,17 +9,22 @@ public class Player : MonoBehaviour
     private float _playerSpeed = 5.5f;
     [SerializeField]
     private GameObject _laserPrefab;
+    [SerializeField]
     private float _fireRate = 0.15f;
     private float _canFire = -1.0f;
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
+    [SerializeField]
+    private bool _powerShotActive = false;
+    [SerializeField]
+    private GameObject _tripleShotPrefab;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(0, 0, 0);
+        transform.position = Vector3.zero;
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
 
         if (_spawnManager == null)
@@ -48,19 +53,19 @@ public class Player : MonoBehaviour
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
         }
 
-        if (transform.position.y <= -4)
+        if (transform.position.y <= -9.5f)
         {
-            transform.position = new Vector3(transform.position.x, -4, transform.position.z);
+            transform.position = new Vector3(transform.position.x, -9.5f, transform.position.z);
         }
 
-        if (transform.position.x > 10.5f)
+        if (transform.position.x > 20f)
         {
-            transform.position = new Vector3(-10.5f, transform.position.y, transform.position.z);
+            transform.position = new Vector3(-20f, transform.position.y, transform.position.z);
         }
 
-        if (transform.position.x < -10.5f)
+        if (transform.position.x < -20f)
         {
-            transform.position = new Vector3(10.5f, transform.position.y, transform.position.z);
+            transform.position = new Vector3(20f, transform.position.y, transform.position.z);
         }
     }
 
@@ -69,8 +74,18 @@ public class Player : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             _canFire = Time.time + _fireRate;
-            Vector3 offset = new Vector3(0, 0.8f, 0);
-            Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+
+            if (_powerShotActive == true)
+            {
+                Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+            }
+
+            else
+            {
+                Vector3 offset = new Vector3(0, 1.05f, 0);
+                Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+            }
+            
         }
     }
 
