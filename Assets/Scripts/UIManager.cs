@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -14,18 +15,17 @@ public class UIManager : MonoBehaviour
     private Sprite[] _liveSprites;
     [SerializeField]
     private TextMeshProUGUI _gameOverText;
+    [SerializeField]
+    private TextMeshProUGUI _restartLevelText;
+    [SerializeField]
+    private GameManager _gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
         _scoreText.text = "Score: " + 0;
         _gameOverText.gameObject.SetActive(false);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _gameManager = GameObject.Find("Game_Manager").GetComponent<GameManager>();
     }
 
     public void UpdateScore(int playerScore)
@@ -36,11 +36,21 @@ public class UIManager : MonoBehaviour
     public void UpdateLives(int currentLives)
     {
         _livesImage.sprite = _liveSprites[currentLives];
+        if (currentLives == 0)
+        {
+            GameOver();
+        }
     }
 
     public void GameOver()
     {
         StartCoroutine(GameOverFlickerRoutine());
+        _restartLevelText.gameObject.SetActive(true);
+        if (_gameManager == null)
+        {
+            Debug.LogError("Game Manager is NULL");
+        }
+        _gameManager.GameOverSequence();
     }
 
     private WaitForSeconds _flicker = new WaitForSeconds(0.3f);
@@ -49,6 +59,7 @@ public class UIManager : MonoBehaviour
     {
         while (true)
         {
+
             _gameOverText.gameObject.SetActive(true);
             yield return _flicker;
             _gameOverText.gameObject.SetActive(false);
@@ -56,4 +67,6 @@ public class UIManager : MonoBehaviour
 
         }
     }
+
+
 }

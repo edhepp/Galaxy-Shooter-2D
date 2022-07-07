@@ -27,6 +27,12 @@ public class Player : MonoBehaviour
     private GameObject _shieldSprite;
     [SerializeField]
     private int _score;
+    [SerializeField]
+    private GameObject _rightEngineSprite, _leftEngineSprite;
+
+    [SerializeField]
+    private AudioClip _laserSoundClip;
+    private AudioSource _audioSource;
 
     private UIManager _uiManager;
 
@@ -37,6 +43,7 @@ public class Player : MonoBehaviour
         transform.position = Vector3.zero;
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _audioSource = GetComponent<AudioSource>();
 
         if (_spawnManager == null)
         {
@@ -47,6 +54,16 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("The UI Manger is NULL");
         }
+
+        if (_audioSource == null)
+        {
+            Debug.LogError("The AUDIO SOURCE on the player is NULL");
+        }
+        else
+        {
+            _audioSource.clip = _laserSoundClip;
+        }
+
     }
 
     // Update is called once per frame
@@ -112,8 +129,10 @@ public class Player : MonoBehaviour
                 Vector3 offset = new Vector3(0, 1.05f, 0);
                 Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
             }
-            
+
+            _audioSource.Play();
         }
+        
     }
 
     public void Damage()
@@ -126,6 +145,16 @@ public class Player : MonoBehaviour
         }
 
         _lives -= 1;
+
+        if (_lives == 2)
+        {
+            _rightEngineSprite.SetActive(true);
+        }
+
+        else if (_lives == 1)
+        {
+            _leftEngineSprite.SetActive(true);
+        }
 
         _uiManager.UpdateLives(_lives);
 
@@ -174,4 +203,6 @@ public class Player : MonoBehaviour
         _score += points;
         _uiManager.UpdateScore(_score);
     }
+
+
 }
