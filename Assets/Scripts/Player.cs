@@ -8,13 +8,18 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _playerSpeed = 5.5f;
     [SerializeField]
+    private float _thrustSpeed = 10f;
+
+    [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private float _fireRate = 0.15f;
     private float _canFire = -1.0f;
+
     [SerializeField]
     private int _lives = 3;
     private SpawnManager _spawnManager;
+
     [SerializeField]
     private bool _tripleShotActive = false;
     [SerializeField]
@@ -26,7 +31,11 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _shieldSprite;
     [SerializeField]
+    private int _shieldHealth = 3;
+
+    [SerializeField]
     private int _score;
+
     [SerializeField]
     private GameObject _rightEngineSprite, _leftEngineSprite;
 
@@ -92,6 +101,15 @@ public class Player : MonoBehaviour
             transform.Translate(Vector3.up * Time.deltaTime * _playerSpeed * verticalInput);
         }
 
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            _playerSpeed = _thrustSpeed;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            _playerSpeed = 5.5f;
+        }
+
         if (transform.position.y >= 0)
         {
             transform.position = new Vector3(transform.position.x, 0, transform.position.z);
@@ -139,9 +157,24 @@ public class Player : MonoBehaviour
     {
         if (_shieldsActive == true)
         {
-            _shieldsActive = false;
-            _shieldSprite.gameObject.SetActive(false);
-            return;
+            switch (_shieldHealth)
+            {
+                case 3:
+                    _shieldHealth -= 1;
+                    _shieldSprite.GetComponent<SpriteRenderer>().material.color = Color.yellow;
+                    return;
+                case 2:
+                    _shieldSprite.GetComponent<SpriteRenderer>().material.color = Color.red;
+                    _shieldHealth -= 1;
+                    return;
+                case 1:
+                    _shieldsActive = false;
+                    _shieldSprite.gameObject.SetActive(false);
+                    return;
+                default:
+                    return;
+            }
+
         }
 
         _lives -= 1;
