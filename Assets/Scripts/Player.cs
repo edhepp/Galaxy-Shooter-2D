@@ -245,4 +245,10 @@ public class Player : MonoBehaviour
         _ammoCount -= ammo;
         _uiManager.UpdateAmmo(_ammoCount);
     }
+
+    public void AmmoPickup()
+    {
+        _ammoCount = 15;
+        _uiManager.UpdateAmmo(_ammoCount);
+    }
 }
