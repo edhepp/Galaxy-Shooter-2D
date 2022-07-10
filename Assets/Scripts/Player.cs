@@ -251,4 +251,30 @@ public class Player : MonoBehaviour
         _ammoCount = 15;
         _uiManager.UpdateAmmo(_ammoCount);
     }
+
+    public void HealthPack()
+    {
+        switch (_lives)
+        {
+            case 3:
+                _lives = 3;
+                _rightEngineSprite.SetActive(false);
+                _leftEngineSprite.SetActive(false);
+                break;
+            case 2:
+                _lives += 1;
+                _rightEngineSprite.SetActive(false);
+                _leftEngineSprite.SetActive(false);
+                break;
+            case 1:
+                _lives += 1;
+                _rightEngineSprite.SetActive(true);
+                _leftEngineSprite.SetActive(false);
+                break;
+            default:
+                break;
+        }
+        _uiManager.UpdateLives(_lives);
+        
+    }
 }
