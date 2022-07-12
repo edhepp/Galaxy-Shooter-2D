@@ -49,6 +49,9 @@ public class Powerup : MonoBehaviour
                     case 4:
                         player.HealthPack();
                         break;
+                    case 5:
+                        player.KittenCannonballActive();
+                        break;
                     default:
                         Debug.Log("Default case triggered");
                         break;

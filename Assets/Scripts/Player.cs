@@ -27,6 +27,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleShotPrefab;
     [SerializeField]
+    private bool _kittenCannonballActive = false;
+    [SerializeField]
+    private GameObject _kittenCannonballPrefab;
+    [SerializeField]
     private bool _speedBoostActive = false;
     [SerializeField]
     private bool _shieldsActive = false;
@@ -43,7 +47,7 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private AudioClip _laserSoundClip;
-    private AudioSource _audioSource;
+    private AudioSource _audioSourceLaser;
 
     private UIManager _uiManager;
 
@@ -54,7 +58,7 @@ public class Player : MonoBehaviour
         transform.position = Vector3.zero;
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
-        _audioSource = GetComponent<AudioSource>();
+        _audioSourceLaser = GetComponent<AudioSource>();
 
         if (_spawnManager == null)
         {
@@ -66,13 +70,13 @@ public class Player : MonoBehaviour
             Debug.LogError("The UI Manger is NULL");
         }
 
-        if (_audioSource == null)
+        if (_audioSourceLaser == null)
         {
             Debug.LogError("The AUDIO SOURCE on the player is NULL");
         }
         else
         {
-            _audioSource.clip = _laserSoundClip;
+            _audioSourceLaser.clip = _laserSoundClip;
         }
 
     }
@@ -144,6 +148,11 @@ public class Player : MonoBehaviour
                 Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
             }
 
+            if (_kittenCannonballActive == true)
+            {
+                Instantiate(_kittenCannonballPrefab, transform.position, Quaternion.identity);
+            }
+
             else
             {
                 Vector3 offset = new Vector3(0, 1.05f, 0);
@@ -151,7 +160,7 @@ public class Player : MonoBehaviour
                 AmmoCount(1);
             }
 
-            _audioSource.Play();
+            _audioSourceLaser.Play();
         }
         
     }
@@ -276,5 +285,17 @@ public class Player : MonoBehaviour
         }
         _uiManager.UpdateLives(_lives);
         
+    }
+
+    public void KittenCannonballActive()
+    {
+        _kittenCannonballActive = true;
+        StartCoroutine(KittenCooldown());
+    }
+
+    IEnumerator KittenCooldown()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _kittenCannonballActive = false;
     }
 }

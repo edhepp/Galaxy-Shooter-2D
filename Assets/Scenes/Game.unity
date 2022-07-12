@@ -398,7 +398,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &723341585
 GameObject:
@@ -913,7 +913,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1284065843
 MonoBehaviour:
@@ -1531,6 +1531,8 @@ MonoBehaviour:
   _lives: 3
   _tripleShotActive: 0
   _tripleShotPrefab: {fileID: 6835210783287538749, guid: ed9d49c8cb4ecd84b9ae308b561daa59, type: 3}
+  _kittenCannonballActive: 0
+  _kittenCannonballPrefab: {fileID: 5150103913139830090, guid: a02d59e897fa84746b4f9e4b3d00db9a, type: 3}
   _speedBoostActive: 0
   _shieldsActive: 0
   _shieldSprite: {fileID: 1743392899}
@@ -1599,7 +1601,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1634564432}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 4.83, y: -1.72, z: 0}
+  m_LocalPosition: {x: 10.34, y: -2.05, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2179,6 +2181,7 @@ MonoBehaviour:
   - {fileID: 6067027523540213196, guid: 79d73634a0f55954597979e4fb355203, type: 3}
   - {fileID: 5380131948511767852, guid: 60548d571b756b34db5e41447658696c, type: 3}
   - {fileID: 8099439273313416660, guid: ba1d45bb5cdaae64398ec754af370930, type: 3}
+  - {fileID: 5150103913139830090, guid: e78f79373d0916241a2473b6bf0edd2d, type: 3}
 --- !u!4 &2038588040
 Transform:
   m_ObjectHideFlags: 0
@@ -2288,7 +2291,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 935379750739460714, guid: d3708a8086db6eb4e81f345e9b02ae7e, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 935379750739460714, guid: d3708a8086db6eb4e81f345e9b02ae7e, type: 3}
       propertyPath: m_LocalPosition.x

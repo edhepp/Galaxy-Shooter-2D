@@ -81,6 +81,17 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject, 2.8f);
 
         }
+
+        else if (other.transform.tag == "Kitten")
+        {
+            Destroy(other.gameObject);
+            _player.AddScore(10);
+            _explosionAnim.SetTrigger("OnEnemyDeath");
+            _enemySpeed = 0;
+            _audioSource.Play();
+            Destroy(GetComponent<Collider2D>());
+            Destroy(this.gameObject, 2.8f);
+        }
     }
 
 }
