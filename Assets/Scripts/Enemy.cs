@@ -33,6 +33,7 @@ public class Enemy : MonoBehaviour
     {
 
         transform.Translate(Vector3.down * Time.deltaTime * _enemySpeed);
+        StartCoroutine(MovementRoutine());
 
         if (Time.time > _canFire)
         {
@@ -92,6 +93,17 @@ public class Enemy : MonoBehaviour
             Destroy(GetComponent<Collider2D>());
             Destroy(this.gameObject, 2.8f);
         }
+    }
+
+    IEnumerator MovementRoutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            transform.Translate(Vector3.right * Time.deltaTime * _enemySpeed);
+            yield return new WaitForSeconds(1f);
+            transform.Translate(Vector3.left * Time.deltaTime * _enemySpeed);
+        } 
     }
 
 }

@@ -13,6 +13,9 @@ public class UIManager : MonoBehaviour
     private TextMeshProUGUI _ammoText;
 
     [SerializeField]
+    private Slider _thrusterSlider;
+
+    [SerializeField]
     private Image _livesImage;
     [SerializeField]
     private Sprite[] _liveSprites;
@@ -75,6 +78,11 @@ public class UIManager : MonoBehaviour
 
     public void UpdateAmmo(int _ammoCount)
     {
-        _ammoText.text = "Ammo: " + _ammoCount.ToString();
+        _ammoText.text = "Ammo: " + _ammoCount.ToString() + " / 15";
+    }
+
+    public void UpdateThruster(float _thrusterEnergy)
+    {
+        _thrusterSlider.value = _thrusterEnergy;
     }
 }

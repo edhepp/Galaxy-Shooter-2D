@@ -11,6 +11,11 @@ public class Player : MonoBehaviour
     private float _thrustSpeed = 10f;
 
     [SerializeField]
+    private Camera _mainCamera;
+    [SerializeField]
+    private bool _cameraShakeActive = false;
+
+    [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private float _fireRate = 0.15f;
@@ -48,9 +53,15 @@ public class Player : MonoBehaviour
     [SerializeField]
     private AudioClip _laserSoundClip;
     private AudioSource _audioSourceLaser;
+    [SerializeField]
+    private AudioClip _kittenSoundClip;
 
     private UIManager _uiManager;
 
+    [SerializeField]
+    private float _thrusterFuel = 100;
+    private float _thrusterBurnSpeed = 10;
+    private bool _thrusterInUse = false;
 
     // Start is called before the first frame update
     void Start()
@@ -85,7 +96,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         PlayerMovement();
-        FireLaser();   
+        FireLaser();
     }
 
     void PlayerMovement()
@@ -107,13 +118,19 @@ public class Player : MonoBehaviour
             transform.Translate(Vector3.up * Time.deltaTime * _playerSpeed * verticalInput);
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && _thrusterFuel > 0)
         {
+            _thrusterInUse = true;
             _playerSpeed = _thrustSpeed;
+            _thrusterFuel -= _thrusterBurnSpeed * Time.deltaTime;
+            _uiManager.UpdateThruster(_thrusterFuel);
+            
         }
         else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
+            _thrusterInUse = false;
             _playerSpeed = 5.5f;
+            StartCoroutine(ThrusterRechargeRoutine());
         }
 
         if (transform.position.y >= 0)
@@ -146,11 +163,13 @@ public class Player : MonoBehaviour
             if (_tripleShotActive == true)
             {
                 Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+                _audioSourceLaser.Play();
             }
 
             if (_kittenCannonballActive == true)
             {
                 Instantiate(_kittenCannonballPrefab, transform.position, Quaternion.identity);
+                AudioSource.PlayClipAtPoint(_kittenSoundClip, transform.position);
             }
 
             else
@@ -158,11 +177,10 @@ public class Player : MonoBehaviour
                 Vector3 offset = new Vector3(0, 1.05f, 0);
                 Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
                 AmmoCount(1);
+                _audioSourceLaser.Play();
             }
-
-            _audioSourceLaser.Play();
-        }
-        
+          
+        }     
     }
 
     public void Damage()
@@ -190,6 +208,8 @@ public class Player : MonoBehaviour
         }
 
         _lives -= 1;
+        _cameraShakeActive = true;
+        StartCoroutine(CameraShakeRoutine());
 
         if (_lives == 2)
         {
@@ -202,7 +222,7 @@ public class Player : MonoBehaviour
         }
 
         _uiManager.UpdateLives(_lives);
-
+        
         if (_lives < 1)
         {
             _spawnManager.OnPlayerDeath();
@@ -297,5 +317,33 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5.0f);
         _kittenCannonballActive = false;
+    }
+
+    IEnumerator ThrusterRechargeRoutine()
+    {
+        while (_thrusterFuel < 100 && _thrusterInUse == false)
+        {
+            yield return new WaitForSeconds(0.5f);
+            _thrusterFuel += 5;
+            _uiManager.UpdateThruster(_thrusterFuel);
+        }
+    }
+
+    IEnumerator CameraShakeRoutine()
+    {
+        while (_cameraShakeActive == true)
+        {
+            float _shakeSpeed = 0.5f;
+            WaitForSeconds _waitTime = new WaitForSeconds(0.1f);
+            for (int i = 0; i < 3; i++)
+            {
+                yield return _waitTime;
+                _mainCamera.transform.Translate(Vector3.right * _shakeSpeed);
+                yield return _waitTime;
+                _mainCamera.transform.Translate(Vector3.left * _shakeSpeed);
+            }
+            _cameraShakeActive = false;
+        }
+        
     }
 }
