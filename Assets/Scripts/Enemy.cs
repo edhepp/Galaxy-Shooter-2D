@@ -13,11 +13,15 @@ public class Enemy : MonoBehaviour
     private float _fireRate = 3.0f;
     private AudioSource _audioSource;
     private float _canFire = -1;
+    int _randomMovement = 0;
+    Vector3 startPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = new Vector3(Random.Range(-18f, 18f), 11, 0);
+        startPosition = new Vector3(Random.Range(-18f, 18f), 11, 0);
+        transform.position = startPosition;
+        _randomMovement = Random.Range(0, 2);
         _player = GameObject.Find("Player").GetComponent<Player>();
         _explosionAnim = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
@@ -33,7 +37,14 @@ public class Enemy : MonoBehaviour
     {
 
         transform.Translate(Vector3.down * Time.deltaTime * _enemySpeed);
-        StartCoroutine(MovementRoutine());
+        if (_randomMovement == 0 && startPosition.x < -1)
+        {
+            transform.Translate(Vector3.right * Time.deltaTime * _enemySpeed);
+        }
+        else if (_randomMovement == 1 && startPosition.x > 1)
+        {
+            transform.Translate(Vector3.left * Time.deltaTime * _enemySpeed);
+        }
 
         if (Time.time > _canFire)
         {
@@ -94,16 +105,4 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject, 2.8f);
         }
     }
-
-    IEnumerator MovementRoutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(1f);
-            transform.Translate(Vector3.right * Time.deltaTime * _enemySpeed);
-            yield return new WaitForSeconds(1f);
-            transform.Translate(Vector3.left * Time.deltaTime * _enemySpeed);
-        } 
-    }
-
 }
