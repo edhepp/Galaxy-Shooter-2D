@@ -52,6 +52,9 @@ public class Powerup : MonoBehaviour
                     case 5:
                         player.KittenCannonballActive();
                         break;
+                    case 6:
+                        player.SlowdownEffect();
+                        break;
                     default:
                         Debug.Log("Default case triggered");
                         break;

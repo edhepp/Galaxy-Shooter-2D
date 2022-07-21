@@ -43,6 +43,8 @@ public class Player : MonoBehaviour
     private GameObject _shieldSprite;
     [SerializeField]
     private int _shieldHealth = 3;
+    [SerializeField]
+    private bool _slowdownActive = false;
 
     [SerializeField]
     private int _score;
@@ -345,5 +347,22 @@ public class Player : MonoBehaviour
             _cameraShakeActive = false;
         }
         
+    }
+
+    public void SlowdownEffect()
+    {
+        _slowdownActive = true;
+        if (_slowdownActive == true)
+        {
+            _playerSpeed = 2.5f;
+            StartCoroutine(SlowdownCooldownRoutine());
+        }
+    }
+
+    IEnumerator SlowdownCooldownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _slowdownActive = false;
+        _playerSpeed = 5.5f;
     }
 }
