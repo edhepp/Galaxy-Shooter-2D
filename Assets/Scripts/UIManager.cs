@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _restartLevelText;
     [SerializeField]
+    private TextMeshProUGUI _newWaveText;
+
+    [SerializeField]
     private GameManager _gameManager;
 
     // Start is called before the first frame update
@@ -67,12 +70,10 @@ public class UIManager : MonoBehaviour
     {
         while (true)
         {
-
             _gameOverText.gameObject.SetActive(true);
             yield return _flicker;
             _gameOverText.gameObject.SetActive(false);
             yield return _flicker;
-
         }
     }
 
@@ -85,4 +86,19 @@ public class UIManager : MonoBehaviour
     {
         _thrusterSlider.value = _thrusterEnergy;
     }
+
+    public void UpdateWave(float _currentWave)
+    {
+        _newWaveText.text = "Wave " + _currentWave;
+        StartCoroutine(NewWaveRoutine());
+    }
+
+    IEnumerator NewWaveRoutine()
+    {
+        _newWaveText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.0f);
+        _newWaveText.gameObject.SetActive(false);
+        StopCoroutine(NewWaveRoutine());
+    }
+
 }
