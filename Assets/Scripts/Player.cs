@@ -99,6 +99,10 @@ public class Player : MonoBehaviour
     {
         PlayerMovement();
         FireLaser();
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            
+        }
     }
 
     void PlayerMovement()

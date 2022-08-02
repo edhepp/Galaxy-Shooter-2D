@@ -6,15 +6,26 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField]
     private float _enemySpeed = 4.0f;
+
     private Player _player;
+
     private Animator _explosionAnim;
+
     [SerializeField]
     private GameObject _laserPrefab;
+
     private float _fireRate = 3.0f;
+
     private AudioSource _audioSource;
+
     private float _canFire = -1;
+
     int _randomMovement = 0;
     Vector3 startPosition;
+
+    [SerializeField]
+    private GameObject _shieldSprite;
+    private bool _isShieldActive = false;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +36,7 @@ public class Enemy : MonoBehaviour
         _player = GameObject.Find("Player").GetComponent<Player>();
         _explosionAnim = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
+        EnemyShieldActive();
 
         if (_explosionAnim == null)
         {
@@ -74,35 +86,74 @@ public class Enemy : MonoBehaviour
             {
                 player.Damage();
             }
-            _explosionAnim.SetTrigger("OnEnemyDeath");
-            _enemySpeed = 0;
-            _audioSource.Play();
-            Destroy(this.gameObject, 2.8f);
+            if (_isShieldActive == false)
+            {
+                _explosionAnim.SetTrigger("OnEnemyDeath");
+                _enemySpeed = 0;
+                _audioSource.Play();
+                _shieldSprite.gameObject.SetActive(false);
+                Destroy(this.gameObject, 2.8f);
+            }
+            else
+            {
+                _isShieldActive = false;
+                _shieldSprite.gameObject.SetActive(false);
+            }
 
         }
 
         else if (other.transform.tag == "Laser")
         {
-            Destroy(other.gameObject);
-            _player.AddScore(10);
-            _explosionAnim.SetTrigger("OnEnemyDeath");
-            _enemySpeed = 0;
-            _audioSource.Play();
-
-            Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject, 2.8f);
+            if (_isShieldActive == false)
+            {
+                Destroy(other.gameObject);
+                _player.AddScore(10);
+                _explosionAnim.SetTrigger("OnEnemyDeath");
+                _enemySpeed = 0;
+                _audioSource.Play();
+                _shieldSprite.gameObject.SetActive(false);
+                Destroy(GetComponent<Collider2D>());
+                Destroy(this.gameObject, 2.8f);
+            }
+            else
+            {
+                _isShieldActive = false;
+                Destroy(other.gameObject);
+                _shieldSprite.gameObject.SetActive(false);
+            }
 
         }
 
         else if (other.transform.tag == "Kitten")
         {
-            Destroy(other.gameObject);
-            _player.AddScore(10);
-            _explosionAnim.SetTrigger("OnEnemyDeath");
-            _enemySpeed = 0;
-            _audioSource.Play();
-            Destroy(GetComponent<Collider2D>());
-            Destroy(this.gameObject, 2.8f);
+            if (_isShieldActive == false)
+            {
+                Destroy(other.gameObject);
+                _player.AddScore(10);
+                _explosionAnim.SetTrigger("OnEnemyDeath");
+                _enemySpeed = 0;
+                _audioSource.Play();
+                _shieldSprite.gameObject.SetActive(false);
+                Destroy(GetComponent<Collider2D>());
+                Destroy(this.gameObject, 2.8f);
+            }
+            else
+            {
+                _isShieldActive = false;
+                Destroy(other.gameObject);
+                _shieldSprite.gameObject.SetActive(false);
+            }
         }
+    }
+
+    public void EnemyShieldActive()
+    {
+        int _randomShield = Random.Range(0, 4);
+        if (_randomShield == 2)
+        {
+            _isShieldActive = true;
+            _shieldSprite.gameObject.SetActive(true);
+        }
+        
     }
 }

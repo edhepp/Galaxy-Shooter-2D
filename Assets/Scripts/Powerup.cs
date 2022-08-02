@@ -7,9 +7,13 @@ public class Powerup : MonoBehaviour
     private float _speed = 3f;
     [SerializeField]
     private int _powerupID;
+    private float _distance;
+    Rigidbody move;
 
     [SerializeField]
     private AudioClip _clip;
+    [SerializeField]
+    GameObject player;
 
     // Update is called once per frame
     void Update()
@@ -19,6 +23,10 @@ public class Powerup : MonoBehaviour
         if (transform.position.y < -10)
         {
             Destroy(this.gameObject);
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            MoveTowardsPlayer();
         }
     }
 
@@ -61,6 +69,16 @@ public class Powerup : MonoBehaviour
                 }
             }
             Destroy(this.gameObject);
+        }
+    }
+
+    public void MoveTowardsPlayer()
+    {
+        Transform player = GameObject.FindGameObjectWithTag("Player").transform;
+        _distance = Vector3.Distance(this.transform.position, player.transform.position);
+        if (_distance < 1000)
+        {
+            move.AddForce((player.transform.position - this.transform.position) * 16);
         }
     }
 }
