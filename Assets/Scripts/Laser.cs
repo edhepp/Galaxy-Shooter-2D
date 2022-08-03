@@ -68,5 +68,9 @@ public class Laser : MonoBehaviour
                 player.Damage();
             }
         }
+        if (other.tag == "Turret" && other.GetType() == typeof(CircleCollider2D))
+        {
+            Destroy(other.gameObject);
+        }
     }
 }

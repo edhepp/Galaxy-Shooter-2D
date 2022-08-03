@@ -7,6 +7,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyPrefab;
     [SerializeField]
+    private GameObject _mineTurret;
+
+    [SerializeField]
     private GameObject _enemyContainer;
     private bool _stopSpawning = false;
     [SerializeField]
@@ -30,6 +33,11 @@ public class SpawnManager : MonoBehaviour
             if (i <= 4)
             {
                 i++;
+                if (i % 2 == 0)
+                {
+                    GameObject mineTurret = Instantiate(_mineTurret);
+                    mineTurret.transform.parent = _enemyContainer.transform;
+                }
                 GameObject newEnemy = Instantiate(_enemyPrefab);
                 newEnemy.transform.parent = _enemyContainer.transform;
                 yield return new WaitForSeconds(3f);
