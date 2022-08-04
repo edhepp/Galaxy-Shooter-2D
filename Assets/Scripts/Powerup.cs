@@ -32,7 +32,7 @@ public class Powerup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && other.GetType() == typeof(BoxCollider2D))
         {
             Player player = other.transform.GetComponent<Player>();
 

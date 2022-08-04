@@ -23,9 +23,15 @@ public class Enemy : MonoBehaviour
     int _randomMovement = 0;
     Vector3 startPosition;
 
+    private bool _isDead = false;
+
     [SerializeField]
     private GameObject _shieldSprite;
     private bool _isShieldActive = false;
+
+    private Transform _target;
+
+    private bool _chargePlayer = false;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +40,10 @@ public class Enemy : MonoBehaviour
         transform.position = startPosition;
         _randomMovement = Random.Range(0, 2);
         _player = GameObject.Find("Player").GetComponent<Player>();
+        if (_player == null)
+        {
+            Debug.LogError("The player is NULL");
+        }
         _explosionAnim = GetComponent<Animator>();
         _audioSource = GetComponent<AudioSource>();
         EnemyShieldActive();
@@ -47,7 +57,6 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         transform.Translate(Vector3.down * Time.deltaTime * _enemySpeed);
         if (_randomMovement == 0 && startPosition.x < -1)
         {
@@ -58,7 +67,7 @@ public class Enemy : MonoBehaviour
             transform.Translate(Vector3.left * Time.deltaTime * _enemySpeed);
         }
 
-        if (Time.time > _canFire)
+        if (Time.time > _canFire && _isDead == false)
         {
             _fireRate = Random.Range(3.0f, 7.0f);
             _canFire = Time.time + _fireRate;
@@ -74,11 +83,20 @@ public class Enemy : MonoBehaviour
         {
             transform.position = new Vector3(Random.Range(-18f, 18f), 11, 0);
         }
+
+        if (_chargePlayer == true && transform.position.y >= _player.transform.position.y)
+        {
+            _target = _player.transform;
+            if (_target != null)
+            {
+                transform.position = Vector3.MoveTowards(transform.position, _target.position, _enemySpeed * Time.deltaTime);
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.transform.tag == "Player")
+        if (other.transform.tag == "Player" && other.GetType() == typeof(BoxCollider2D))
         {
             Player player = other.transform.GetComponent<Player>();
 
@@ -92,6 +110,7 @@ public class Enemy : MonoBehaviour
                 _enemySpeed = 0;
                 _audioSource.Play();
                 _shieldSprite.gameObject.SetActive(false);
+                _isDead = true;
                 Destroy(this.gameObject, 2.8f);
             }
             else
@@ -99,7 +118,12 @@ public class Enemy : MonoBehaviour
                 _isShieldActive = false;
                 _shieldSprite.gameObject.SetActive(false);
             }
+            
+        }
 
+        if (other.transform.tag == "Player" && other.GetType() == typeof(CircleCollider2D))
+        {
+            _chargePlayer = true;
         }
 
         else if (other.transform.tag == "Laser")
@@ -113,6 +137,7 @@ public class Enemy : MonoBehaviour
                 _audioSource.Play();
                 _shieldSprite.gameObject.SetActive(false);
                 Destroy(GetComponent<Collider2D>());
+                _isDead = true;
                 Destroy(this.gameObject, 2.8f);
             }
             else
@@ -121,7 +146,6 @@ public class Enemy : MonoBehaviour
                 Destroy(other.gameObject);
                 _shieldSprite.gameObject.SetActive(false);
             }
-
         }
 
         else if (other.transform.tag == "Kitten")
@@ -135,6 +159,7 @@ public class Enemy : MonoBehaviour
                 _audioSource.Play();
                 _shieldSprite.gameObject.SetActive(false);
                 Destroy(GetComponent<Collider2D>());
+                _isDead = true;
                 Destroy(this.gameObject, 2.8f);
             }
             else
@@ -143,6 +168,14 @@ public class Enemy : MonoBehaviour
                 Destroy(other.gameObject);
                 _shieldSprite.gameObject.SetActive(false);
             }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.transform.tag == "Player" && other.GetType() == typeof(CircleCollider2D))
+        {
+            _chargePlayer = false;
         }
     }
 

@@ -56,7 +56,7 @@ public class Laser : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player" && _isEnemyLaser == true)
+        if (other.tag == "Player" && _isEnemyLaser == true && other.GetType() == typeof(BoxCollider2D))
         {
             Player player = other.GetComponent<Player>();
             if (player == null)
