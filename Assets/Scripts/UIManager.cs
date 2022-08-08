@@ -19,6 +19,7 @@ public class UIManager : MonoBehaviour
     private Image _livesImage;
     [SerializeField]
     private Sprite[] _liveSprites;
+
     [SerializeField]
     private TextMeshProUGUI _gameOverText;
     [SerializeField]

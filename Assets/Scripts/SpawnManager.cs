@@ -11,10 +11,15 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField]
     private GameObject _enemyContainer;
+
     private bool _stopSpawning = false;
+
     [SerializeField]
     private GameObject[] _powerups;
+
     private int _waveCount = 1;
+
+    private int _randomPowerup;
 
     public void StartSpawning()
     {
@@ -42,7 +47,7 @@ public class SpawnManager : MonoBehaviour
                 newEnemy.transform.parent = _enemyContainer.transform;
                 yield return new WaitForSeconds(3f);
             }
-            if (_enemyContainer.transform.childCount <= 1 && i == 4)
+            if (_enemyContainer.transform.childCount == 0 && i == 5)
             {
                 _stopSpawning = true;
                 _waveCount++;
@@ -56,6 +61,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(5f);
         _stopSpawning = false;
         StartCoroutine(SpawnEnemyRoutine());
+        StartCoroutine(SpawnPowerupRoutine());
     }
 
     IEnumerator SpawnPowerupRoutine()
@@ -64,8 +70,36 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
             Vector3 powerupPosition = new Vector3(Random.Range(-18f, 18f), 11, 0);
-            int randomPowerup = Random.Range(0, 7);
-            GameObject tripleShot = Instantiate(_powerups[randomPowerup], powerupPosition, Quaternion.identity);
+            float powerupProbability = Random.value;
+            if (powerupProbability < .1f)
+            {
+                _randomPowerup = 0; // TripleShot
+            }
+            else if (powerupProbability >= .1f && powerupProbability < .2f )
+            {
+                _randomPowerup = 1; // Speed Boost
+            }
+            else if (powerupProbability >= .2f && powerupProbability < .3f)
+            {
+                _randomPowerup = 2; // Shield
+            }
+            else if (powerupProbability >= .3f && powerupProbability < .7f)
+            {
+                _randomPowerup = 3; // Ammo
+            }
+            else if (powerupProbability >= .7 && powerupProbability < .8f)
+            {
+                _randomPowerup = 4; // health pack
+            }
+            else if (powerupProbability >= .8f && powerupProbability < .9f)
+            {
+                _randomPowerup = 5; // kitten cannonball
+            }
+            else if (powerupProbability >= .9f && powerupProbability < 1f)
+            {
+                _randomPowerup = 6; // slowdown
+            }
+            GameObject tripleShot = Instantiate(_powerups[_randomPowerup], powerupPosition, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3, 7));
         }
         

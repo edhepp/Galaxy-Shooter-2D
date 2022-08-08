@@ -6,7 +6,9 @@ public class Laser : MonoBehaviour
 {
     [SerializeField]
     private float _laserSpeed = 8f;
+
     private bool _isEnemyLaser = false;
+
     // Update is called once per frame
     void Update()
     {
@@ -14,7 +16,6 @@ public class Laser : MonoBehaviour
         {
             MoveUp();
         }
-
         else
         {
             MoveDown();
@@ -38,7 +39,6 @@ public class Laser : MonoBehaviour
     void MoveDown()
     {
         transform.Translate(Vector3.down * _laserSpeed * Time.deltaTime);
-
         if (transform.position.y <= -12)
         {
             if (transform.parent != null)

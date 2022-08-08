@@ -91,7 +91,6 @@ public class Player : MonoBehaviour
         {
             _audioSourceLaser.clip = _laserSoundClip;
         }
-
     }
 
     // Update is called once per frame
@@ -185,7 +184,6 @@ public class Player : MonoBehaviour
                 AmmoCount(1);
                 _audioSourceLaser.Play();
             }
-          
         }     
     }
 
@@ -210,7 +208,6 @@ public class Player : MonoBehaviour
                 default:
                     return;
             }
-
         }
 
         _lives -= 1;
@@ -349,8 +346,7 @@ public class Player : MonoBehaviour
                 _mainCamera.transform.Translate(Vector3.left * _shakeSpeed);
             }
             _cameraShakeActive = false;
-        }
-        
+        } 
     }
 
     public void SlowdownEffect()

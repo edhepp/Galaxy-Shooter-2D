@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1678658982462341719}
   m_Layer: 0
   m_Name: Kitten_Cannonball_Powerup
-  m_TagString: Untagged
+  m_TagString: Powerup_Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -117,6 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _powerupID: 5
   _clip: {fileID: 8300000, guid: 94a03f8fbe54f9342bccca523226eeba, type: 3}
+  player: {fileID: 0}
 --- !u!50 &1678658982462341719
 Rigidbody2D:
   serializedVersion: 4

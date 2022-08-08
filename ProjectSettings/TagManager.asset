@@ -9,6 +9,7 @@ TagManager:
   - Enemy
   - Turret
   - Fireball
+  - Powerup_Pickup
   layers:
   - Default
   - TransparentFX

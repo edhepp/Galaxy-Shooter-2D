@@ -5,6 +5,7 @@ using UnityEngine;
 public class MineTurret : MonoBehaviour
 {
     private float _turretSpeed = 6f;
+
     private int _randomNum;
     private Vector3 _startPosition;
     private bool _turretMovement;

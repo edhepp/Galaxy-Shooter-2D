@@ -5,13 +5,17 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     private float _speed = 3f;
+
     [SerializeField]
     private int _powerupID;
+
     private float _distance;
+
     Rigidbody move;
 
     [SerializeField]
     private AudioClip _clip;
+
     [SerializeField]
     GameObject player;
 

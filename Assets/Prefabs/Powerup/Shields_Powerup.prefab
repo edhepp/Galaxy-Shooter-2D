@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1628475701888906523}
   m_Layer: 0
   m_Name: Shields_Powerup
-  m_TagString: Untagged
+  m_TagString: Powerup_Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -169,3 +169,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _powerupID: 2
   _clip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
+  player: {fileID: 0}

@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField]
     private GameObject _laserPrefab;
+    [SerializeField]
+    private GameObject _backwardLaserPrefab;
 
     private float _fireRate = 3.0f;
 
@@ -118,7 +120,11 @@ public class Enemy : MonoBehaviour
                 _isShieldActive = false;
                 _shieldSprite.gameObject.SetActive(false);
             }
-            
+        }
+
+        if (other.transform.tag == "Player" && other.GetType() == typeof(CapsuleCollider2D))
+        {
+            Instantiate(_backwardLaserPrefab, transform.position, Quaternion.identity);
         }
 
         if (other.transform.tag == "Player" && other.GetType() == typeof(CircleCollider2D))
@@ -126,7 +132,7 @@ public class Enemy : MonoBehaviour
             _chargePlayer = true;
         }
 
-        else if (other.transform.tag == "Laser")
+        if (other.transform.tag == "Laser" && other.GetType() == typeof(BoxCollider2D))
         {
             if (_isShieldActive == false)
             {
@@ -148,7 +154,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        else if (other.transform.tag == "Kitten")
+        if (other.transform.tag == "Kitten" && other.GetType() == typeof(CircleCollider2D))
         {
             if (_isShieldActive == false)
             {
