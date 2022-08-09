@@ -7,10 +7,12 @@ public class PowerupDetector : MonoBehaviour
 
     private bool _powerupDetected = false;
 
+    [SerializeField]
+    private Enemy _enemy;
     // Start is called before the first frame update
     void Start()
     {
-        Enemy enemy = GameObject.Find("Enemy").GetComponent<Enemy>();
+
     }
 
     // Update is called once per frame
@@ -32,6 +34,8 @@ public class PowerupDetector : MonoBehaviour
         if (_powerupDetected == true)
         {
             Debug.Log("Powerup detected");
+            _enemy.FireAtPowerup();
+            _powerupDetected = false;
         }
     }
 }
