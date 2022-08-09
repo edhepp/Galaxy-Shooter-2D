@@ -149,7 +149,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _powerupID: 1
   _clip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
-  player: {fileID: 0}
 --- !u!95 &4877236004914698506
 Animator:
   serializedVersion: 4

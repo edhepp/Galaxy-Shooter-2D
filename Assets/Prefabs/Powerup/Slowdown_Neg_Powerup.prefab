@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 964075016176334021}
   - component: {fileID: 8345327941911281439}
   - component: {fileID: -1123098610440125813}
-  - component: {fileID: -391866294192098845}
+  - component: {fileID: 3323953516553152562}
   m_Layer: 0
   m_Name: Slowdown_Neg_Powerup
   m_TagString: Untagged
@@ -122,7 +122,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!70 &-391866294192098845
+--- !u!70 &3323953516553152562
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

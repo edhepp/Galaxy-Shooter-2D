@@ -70,6 +70,13 @@ public class Laser : MonoBehaviour
         }
         if (other.tag == "Turret" && other.GetType() == typeof(CircleCollider2D))
         {
+            Destroy(this.gameObject);
+            Destroy(other.gameObject);
+        }
+
+        if (other.tag == "Powerup_Pickup" && _isEnemyLaser)
+        {
+            Destroy(this.gameObject);
             Destroy(other.gameObject);
         }
     }

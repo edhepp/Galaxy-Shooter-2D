@@ -6,6 +6,8 @@ public class Powerup : MonoBehaviour
 {
     private float _speed = 3f;
 
+    private float _collectSpeed = 10f;
+
     [SerializeField]
     private int _powerupID;
 
@@ -16,9 +18,14 @@ public class Powerup : MonoBehaviour
     [SerializeField]
     private AudioClip _clip;
 
-    [SerializeField]
-    GameObject player;
+    private bool _moveTowardsPlayer = false;
 
+    Player _player;
+
+    private void Start()
+    {
+        _player = GameObject.Find("Player").GetComponent<Player>();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -28,9 +35,9 @@ public class Powerup : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKey(KeyCode.C) && _moveTowardsPlayer)
         {
-            MoveTowardsPlayer();
+            transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, _collectSpeed * Time.deltaTime);
         }
     }
 
@@ -74,15 +81,10 @@ public class Powerup : MonoBehaviour
             }
             Destroy(this.gameObject);
         }
-    }
 
-    public void MoveTowardsPlayer()
-    {
-        Transform player = GameObject.FindGameObjectWithTag("Player").transform;
-        _distance = Vector3.Distance(this.transform.position, player.transform.position);
-        if (_distance < 1000)
+        if (other.transform.tag == "Player" && other.GetType() == typeof(CircleCollider2D))
         {
-            move.AddForce((player.transform.position - this.transform.position) * 16);
+            _moveTowardsPlayer = true;
         }
     }
 }

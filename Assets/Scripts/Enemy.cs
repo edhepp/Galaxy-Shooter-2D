@@ -41,7 +41,8 @@ public class Enemy : MonoBehaviour
         startPosition = new Vector3(Random.Range(-18f, 18f), 11, 0);
         transform.position = startPosition;
         _randomMovement = Random.Range(0, 2);
-        _player = GameObject.Find("Player").GetComponent<Player>();
+        Player player = GameObject.Find("Player").GetComponent<Player>();
+        _player = player;
         if (_player == null)
         {
             Debug.LogError("The player is NULL");
@@ -86,7 +87,7 @@ public class Enemy : MonoBehaviour
             transform.position = new Vector3(Random.Range(-18f, 18f), 11, 0);
         }
 
-        if (_chargePlayer == true && transform.position.y >= _player.transform.position.y)
+        if (_chargePlayer && gameObject.transform.position.y >= _player.transform.position.y)
         {
             _target = _player.transform;
             if (_target != null)
@@ -194,5 +195,20 @@ public class Enemy : MonoBehaviour
             _shieldSprite.gameObject.SetActive(true);
         }
         
+    }
+
+    public void FireAtPowerup()
+    {
+        if (/*Time.time > _canFire && */_isDead == false)
+        {
+            /*_fireRate = Random.Range(3.0f, 7.0f);
+            _canFire = Time.time + _fireRate;*/
+            GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+            for (int i = 0; i < lasers.Length; i++)
+            {
+                lasers[i].AssignEnemyLaser();
+            }
+        }
     }
 }
