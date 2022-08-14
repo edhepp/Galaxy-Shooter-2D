@@ -9,11 +9,6 @@ public class PowerupDetector : MonoBehaviour
 
     [SerializeField]
     private Enemy _enemy;
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
@@ -33,7 +28,6 @@ public class PowerupDetector : MonoBehaviour
     {
         if (_powerupDetected == true)
         {
-            Debug.Log("Powerup detected");
             _enemy.FireAtPowerup();
             _powerupDetected = false;
         }

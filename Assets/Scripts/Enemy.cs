@@ -9,6 +9,9 @@ public class Enemy : MonoBehaviour
 
     private Player _player;
 
+    [SerializeField]
+    private GameObject _laser;
+
     private Animator _explosionAnim;
 
     [SerializeField]
@@ -210,5 +213,10 @@ public class Enemy : MonoBehaviour
                 lasers[i].AssignEnemyLaser();
             }
         }
+    }
+
+    public void DodgeLaser(float offset)
+    {
+        transform.position = new Vector3(transform.position.x + offset, transform.position.y, 0);
     }
 }

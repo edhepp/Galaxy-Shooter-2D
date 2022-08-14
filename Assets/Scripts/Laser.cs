@@ -7,7 +7,7 @@ public class Laser : MonoBehaviour
     [SerializeField]
     private float _laserSpeed = 8f;
 
-    private bool _isEnemyLaser = false;
+    public bool _isEnemyLaser = false;
 
     // Update is called once per frame
     void Update()
