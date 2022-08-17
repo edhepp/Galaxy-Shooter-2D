@@ -83,21 +83,25 @@ public class SpawnManager : MonoBehaviour
             {
                 _randomPowerup = 2; // Shield
             }
-            else if (powerupProbability >= .3f && powerupProbability < .7f)
+            else if (powerupProbability >= .3f && powerupProbability < .6f)
             {
                 _randomPowerup = 3; // Ammo
             }
-            else if (powerupProbability >= .7 && powerupProbability < .8f)
+            else if (powerupProbability >= .6 && powerupProbability < .7f)
             {
                 _randomPowerup = 4; // health pack
             }
-            else if (powerupProbability >= .8f && powerupProbability < .9f)
+            else if (powerupProbability >= .7f && powerupProbability < .8f)
             {
                 _randomPowerup = 5; // kitten cannonball
             }
-            else if (powerupProbability >= .9f && powerupProbability < 1f)
+            else if (powerupProbability >= .8f && powerupProbability < .9f)
             {
                 _randomPowerup = 6; // slowdown
+            }
+            else if (powerupProbability >= .9f && powerupProbability <= .1f)
+            {
+                _randomPowerup = 7; // Homing Missile
             }
             GameObject tripleShot = Instantiate(_powerups[_randomPowerup], powerupPosition, Quaternion.identity);
             yield return new WaitForSeconds(Random.Range(3, 7));

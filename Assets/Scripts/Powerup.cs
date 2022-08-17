@@ -74,6 +74,9 @@ public class Powerup : MonoBehaviour
                     case 6:
                         player.SlowdownEffect();
                         break;
+                    case 7:
+                        player.HomingMissileIsActive();
+                        break;
                     default:
                         Debug.Log("Default case triggered");
                         break;

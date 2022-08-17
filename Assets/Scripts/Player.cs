@@ -65,6 +65,10 @@ public class Player : MonoBehaviour
     private float _thrusterBurnSpeed = 10;
     private bool _thrusterInUse = false;
 
+    [SerializeField]
+    private GameObject _homingMissilePrefab;
+    private int _homingMissileCount = 0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -98,9 +102,10 @@ public class Player : MonoBehaviour
     {
         PlayerMovement();
         FireLaser();
-        if (Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.X) && _homingMissileCount > 0)
         {
-            
+            Instantiate(_homingMissilePrefab, transform.position, Quaternion.identity);
+            _homingMissileCount -= 1;
         }
     }
 
@@ -364,5 +369,10 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(5.0f);
         _slowdownActive = false;
         _playerSpeed = 5.5f;
+    }
+
+    public void HomingMissileIsActive()
+    {
+        _homingMissileCount = 3;
     }
 }

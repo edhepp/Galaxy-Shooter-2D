@@ -104,7 +104,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.transform.tag == "Player" && other.GetType() == typeof(BoxCollider2D))
         {
-            Player player = other.transform.GetComponent<Player>();
+            Player player = other.transform.GetComponent<Player>(); // use global plyaer
 
             if (player != null)
             {
@@ -179,6 +179,29 @@ public class Enemy : MonoBehaviour
                 _shieldSprite.gameObject.SetActive(false);
             }
         }
+
+        if (other.transform.tag == "Homing_Missile")
+        {
+            if (_isShieldActive == false)
+            {
+                // Turn into seperate method
+                Destroy(other.gameObject); // not valid outside this statement
+                _player.AddScore(10);
+                _explosionAnim.SetTrigger("OnEnemyDeath");
+                _enemySpeed = 0;
+                _audioSource.Play();
+                _shieldSprite.gameObject.SetActive(false);
+                Destroy(GetComponent<Collider2D>());
+                _isDead = true;
+                Destroy(this.gameObject, 2.8f);
+            }
+            else
+            {
+                _isShieldActive = false;
+                Destroy(other.gameObject);
+                _shieldSprite.gameObject.SetActive(false);
+            }
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -202,10 +225,8 @@ public class Enemy : MonoBehaviour
 
     public void FireAtPowerup()
     {
-        if (/*Time.time > _canFire && */_isDead == false)
+        if (_isDead == false)
         {
-            /*_fireRate = Random.Range(3.0f, 7.0f);
-            _canFire = Time.time + _fireRate;*/
             GameObject enemyLaser = Instantiate(_laserPrefab, transform.position, Quaternion.identity);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
             for (int i = 0; i < lasers.Length; i++)
