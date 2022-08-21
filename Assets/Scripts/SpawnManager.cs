@@ -17,9 +17,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _powerups;
 
-    private int _waveCount = 1;
+    [SerializeField] private int _waveCount = 1;
 
     private int _randomPowerup;
+
+    [SerializeField] private GameObject _bossPrefab;
 
     public void StartSpawning()
     {
@@ -60,7 +62,14 @@ public class SpawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(5f);
         _stopSpawning = false;
-        StartCoroutine(SpawnEnemyRoutine());
+        if (_waveCount < 3)
+        {
+            StartCoroutine(SpawnEnemyRoutine());
+        }
+        else
+        {
+            Instantiate(_bossPrefab, transform.position, Quaternion.identity);
+        }
         StartCoroutine(SpawnPowerupRoutine());
     }
 

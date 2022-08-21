@@ -19,6 +19,16 @@ public class GameManager : MonoBehaviour
         {
             Application.Quit();
         }
+
+        if (Input.GetKeyDown(KeyCode.Y) && _isGameOver == true)
+        {
+            SceneManager.LoadScene(1);
+        }
+
+        if (Input.GetKeyDown(KeyCode.N) && _isGameOver == true)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     public void GameOverSequence()
@@ -26,4 +36,8 @@ public class GameManager : MonoBehaviour
         _isGameOver = true;
     }
 
+    public void GameWonSequence()
+    {
+        _isGameOver = true;
+    }
 }

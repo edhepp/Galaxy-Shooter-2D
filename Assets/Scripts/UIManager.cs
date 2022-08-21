@@ -30,6 +30,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private GameManager _gameManager;
 
+    [SerializeField] private TextMeshProUGUI _gameWonText, _playAgainText;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,4 +104,25 @@ public class UIManager : MonoBehaviour
         StopCoroutine(NewWaveRoutine());
     }
 
+    public void GameWon()
+    {
+        StartCoroutine(GameWonFlickerRoutine());
+        _playAgainText.gameObject.SetActive(true);
+        if (_gameManager == null)
+        {
+            Debug.Log("Game Manager is NULL");
+        }
+        _gameManager.GameWonSequence();
+    }
+
+    IEnumerator GameWonFlickerRoutine()
+    {
+        while (true)
+        {
+            _gameWonText.gameObject.SetActive(true);
+            yield return _flicker;
+            _gameWonText.gameObject.SetActive(false);
+            yield return _flicker;
+        }
+    }
 }

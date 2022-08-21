@@ -14,7 +14,6 @@ public class LaserDetector : MonoBehaviour
         if (other.name == "Laser(Clone)")
         {
             int _chanceToDodge = Random.Range(0, 4);
-            Debug.Log(_chanceToDodge);
             if (this.transform.position.x < other.transform.position.x && _chanceToDodge == 2)
             {
                 this.GetComponentInParent<Enemy>().DodgeLaser(-1.5f);
